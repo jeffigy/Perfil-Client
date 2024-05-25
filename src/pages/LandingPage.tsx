@@ -131,7 +131,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <p className="mr-[1px]">
+            <p className="mr-[1px] text-sm">
               {isLogin ? "Don't have an Account?" : "Already have an Account?"}
             </p>
             <button
