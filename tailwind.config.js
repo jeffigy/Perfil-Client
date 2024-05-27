@@ -6,7 +6,8 @@ export default {
   theme: {
     extend: {},
   },
+  darkMode: ["class", '[data-theme="night"]'],
   daisyui: {
-    themes: ["light", "dark", "night", "winter"],
+    themes: ["winter", "night"],
   },
 };
