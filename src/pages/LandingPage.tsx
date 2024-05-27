@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [isLogin, setisLogin] = useState(true);
@@ -12,21 +13,11 @@ const LandingPage = () => {
       <div className="grid w-full max-w-6xl items-center gap-10 md:grid-cols-2">
         <div className="max-md:text-center">
           <h2 className="text-4xl font-extrabold lg:text-5xl lg:leading-[55px]">
-            Seamless Login for Exclusive access
+            Welcome to Perfil
           </h2>
           <p className="mt-6 text-sm">
             Immerse yourself in a hassle-free login hourney with our intuitively
             sedinged login form. Efforlessly access your account.
-          </p>
-          <p className="mt-10 text-sm">
-            {" "}
-            Dont have an account{" "}
-            <a
-              href=""
-              className="ml-1 font-semibold text-blue-600 hover:underline"
-            >
-              Register here
-            </a>
           </p>
         </div>
 
@@ -36,26 +27,6 @@ const LandingPage = () => {
           </h3>
 
           {isLogin ? <LoginForm /> : <RegisterForm />}
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <label htmlFor="" className="ml-3 block text-sm">
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <button className="btn btn-link no-underline">
-                Forgot your password?
-              </button>
-            </div>
-          </div>
-
-          <button className="btn btn-primary !mt-10 w-full">Log in</button>
 
           <p className="my-10 text-center text-sm text-gray-400">
             or continue with
@@ -150,6 +121,7 @@ const LandingPage = () => {
 export default LandingPage;
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   return (
     <>
       <input
@@ -163,11 +135,39 @@ const LoginForm = () => {
         placeholder="Password"
         className="input input-primary w-full border-none bg-gray-100"
       />
+
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <label htmlFor="" className="ml-3 block text-sm">
+            Remember me
+          </label>
+        </div>
+
+        <div className="text-sm">
+          <button className="btn btn-link no-underline">
+            Forgot your password?
+          </button>
+        </div>
+      </div>
+
+      <button
+        className="btn btn-primary !mt-10 w-full"
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+      >
+        Log in
+      </button>
     </>
   );
 };
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   return (
     <>
       <input
@@ -187,6 +187,21 @@ const RegisterForm = () => {
         placeholder="Password"
         className="input input-primary w-full border-none bg-gray-100"
       />
+
+      <input
+        type="text"
+        placeholder="Confirm Password"
+        className="input input-primary w-full border-none bg-gray-100"
+      />
+
+      <button
+        className="btn btn-primary !mt-10 w-full"
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+      >
+        Register
+      </button>
     </>
   );
 };
