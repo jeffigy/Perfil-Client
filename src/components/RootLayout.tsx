@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const Layout = () => {
+const RootLayout = () => {
   return (
     <div className="min-h-screen w-full">
       <Outlet />
@@ -8,4 +8,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default RootLayout;
