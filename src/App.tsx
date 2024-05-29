@@ -5,7 +5,7 @@ import { themeChange } from "theme-change";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const RootLayout = lazy(() => import("./components/RootLayout"));
-const Layout = lazy(() => import("./components/Dashboard/Layout"));
+const Layout = lazy(() => import("./components/Layout/Layout"));
 const WorkplacesPage = lazy(() => import("./pages/Workplaces/WorkplacesPage"));
 const PatientsPage = lazy(() => import("./pages/Patients/PatientsPage"));
 const HealthWorkersPage = lazy(
