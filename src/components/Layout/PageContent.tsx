@@ -5,11 +5,10 @@ import SuspenseContent from "../SuspenseContent";
 
 const PageContent = () => {
   return (
-    <div className="drawer-content flex flex-col">
+    <div className="drawer-content flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1 overflow-y-auto bg-base-200 px-6 pt-4  md:pt-4">
+      <main className="flex-1 overflow-y-auto bg-base-200 px-6 pt-4 md:pt-4">
         <Suspense fallback={<SuspenseContent />}>
-          {" "}
           <Outlet />
         </Suspense>
       </main>
