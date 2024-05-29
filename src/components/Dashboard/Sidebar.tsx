@@ -42,6 +42,7 @@ const Sidebar = () => {
                   className={({ isActive }) =>
                     `${isActive ? "bg-base-200  font-semibold " : "font-normal"}`
                   }
+                  onClick={() => close()}
                 >
                   {route.icon} {route.name}
                   {location.pathname === route.path ? (
