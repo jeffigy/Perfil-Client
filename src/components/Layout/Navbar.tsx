@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="flex-1">
           <label
             htmlFor="left-sidebar-drawer"
-            className="btn btn-primary drawer-button lg:hidden"
+            className="btn btn-outline btn-primary drawer-button lg:hidden"
           >
             <Bars3Icon className="inline-block h-5 w-5" />
           </label>

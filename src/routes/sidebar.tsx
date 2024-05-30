@@ -3,10 +3,10 @@ import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 import DocumentIcon from "@heroicons/react/24/outline/DocumentIcon";
 import ExclamationTriangleIcon from "@heroicons/react/24/outline/ExclamationTriangleIcon";
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
-import BoltIcon from "@heroicons/react/24/outline/BoltIcon";
-import ChartBarIcon from "@heroicons/react/24/outline/ChartBarIcon";
-import CurrencyDollarIcon from "@heroicons/react/24/outline/CurrencyDollarIcon";
-import InboxArrowDownIcon from "@heroicons/react/24/outline/InboxArrowDownIcon";
+import UsersIcon from "@heroicons/react/24/outline/UsersIcon";
+import ChartPieIcon from "@heroicons/react/24/outline/ChartPieIcon";
+import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
+import BuildingOfficeIcon from "@heroicons/react/24/outline/BuildingOfficeIcon";
 
 import KeyIcon from "@heroicons/react/24/outline/KeyIcon";
 import DocumentDuplicateIcon from "@heroicons/react/24/outline/DocumentDuplicateIcon";
@@ -38,22 +38,22 @@ const routes: Routes = [
   },
   {
     path: "/workplaces",
-    icon: <InboxArrowDownIcon className={iconClasses} />,
+    icon: <BuildingOfficeIcon className={iconClasses} />,
     name: "Workplaces",
   },
   {
     path: "/patients",
-    icon: <CurrencyDollarIcon className={iconClasses} />,
+    icon: <UserGroupIcon className={iconClasses} />,
     name: "Patients",
   },
   {
     path: "/health-workers",
-    icon: <ChartBarIcon className={iconClasses} />,
+    icon: <UsersIcon className={iconClasses} />,
     name: "Health Workers",
   },
   {
     path: "/reports",
-    icon: <BoltIcon className={iconClasses} />,
+    icon: <ChartPieIcon className={iconClasses} />,
     name: "Reports",
   },
 
