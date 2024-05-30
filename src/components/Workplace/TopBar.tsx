@@ -5,7 +5,7 @@ const TopBar = () => {
     <div className="flex items-center justify-center gap-2 lg:justify-end">
       <input
         type="text"
-        placeholder="Search"
+        placeholder="Find Building "
         className="input input-bordered "
       />
       <div className="dropdown dropdown-end dropdown-bottom">
@@ -18,10 +18,16 @@ const TopBar = () => {
           className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
         >
           <li>
-            <a>Item 1</a>
+            <a>Newest</a>
           </li>
           <li>
-            <a>Item 2</a>
+            <a>Oldest</a>
+          </li>
+          <li>
+            <a>A - Z</a>
+          </li>
+          <li>
+            <a>Z - A</a>
           </li>
         </ul>
       </div>
