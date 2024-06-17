@@ -2,16 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, useEffect } from "react";
 import { themeChange } from "theme-change";
 
-const HomePage = lazy(() => import("./pages/HomePage"));
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const RootLayout = lazy(() => import("./components/RootLayout"));
-const Layout = lazy(() => import("./components/Layout/Layout"));
-const WorkplacesPage = lazy(() => import("./pages/Workplaces/WorkplacesPage"));
-const PatientsPage = lazy(() => import("./pages/Patients/PatientsPage"));
-const HealthWorkersPage = lazy(
-  () => import("./pages/HealthWorkers/HealthWorkersPage"),
-);
-const ReportsPage = lazy(() => import("./pages/Reports/ReportsPage"));
+const HomePage = lazy(() => import("pages/HomePage"));
+const LandingPage = lazy(() => import("pages/LandingPage"));
+const RootLayout = lazy(() => import("components/RootLayout"));
+const Layout = lazy(() => import("components/Layout/Layout"));
+const WorkplacesPage = lazy(() => import("pages/Workplaces/WorkplacesPage"));
+const PatientsPage = lazy(() => import("pages/Patients"));
+const HealthWorkersPage = lazy(() => import("pages/HealthWorkers"));
+const ReportsPage = lazy(() => import("pages/Reports"));
 
 function App() {
   useEffect(() => {
