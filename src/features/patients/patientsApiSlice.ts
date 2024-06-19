@@ -22,12 +22,7 @@ export const patientsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
       transformResponse: (responseData: Patient[]) => {
-        const loadedPatients = responseData.map((patient) => {
-          console.log("patients", responseData);
-          patient.id = patient._id;
-          return patient;
-        });
-        return patientsAdapter.setAll(initialState, loadedPatients);
+        return patientsAdapter.setAll(initialState, responseData);
       },
       providesTags: (result) => {
         if (result?.ids) {
