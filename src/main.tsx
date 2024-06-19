@@ -3,15 +3,19 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import SuspenseContent from "./components/SuspenseContent.tsx";
+import { Provider } from "react-redux";
+import { store } from "app/store.ts";
+import SuspenseContent from "components/SuspenseContent.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Suspense fallback={<SuspenseContent />}>
-      {" "}
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Suspense>
+    <Provider store={store}>
+      <Suspense fallback={<SuspenseContent />}>
+        {" "}
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Suspense>
+    </Provider>
   </React.StrictMode>,
 );
