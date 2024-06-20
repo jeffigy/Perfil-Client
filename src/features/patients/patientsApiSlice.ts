@@ -20,7 +20,6 @@ export const patientsApiSlice = apiSlice.injectEndpoints({
           return Response.status === 200 && !result.isError;
         },
       }),
-      keepUnusedDataFor: 5,
       transformResponse: (responseData: Patient[]) => {
         return patientsAdapter.setAll(initialState, responseData);
       },

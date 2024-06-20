@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "app/store.ts";
 import SuspenseContent from "components/SuspenseContent.tsx";
@@ -13,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<SuspenseContent />}>
         {" "}
         <BrowserRouter>
-          <App />
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
         </BrowserRouter>
       </Suspense>
     </Provider>

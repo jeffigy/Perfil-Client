@@ -27,7 +27,7 @@ const User: React.FC<UserProps> = ({ userId }) => {
       <td>
         <button
           className="btn btn-square btn-link  btn-sm "
-          onClick={() => navigate(`/dash/users/${userId}`)}
+          onClick={() => navigate(`/dashboard/users/${userId}`)}
         >
           <InformationCircleIcon />
         </button>

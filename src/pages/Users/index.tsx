@@ -1,7 +1,7 @@
 import TopBar from "../../components/HealthWorkers/TopBar";
 import UsersList from "features/users/UsersList";
 
-const HealthWorkersPage = () => {
+const UsersPage = () => {
   return (
     <div className="card w-full bg-base-100 p-6 shadow">
       <TopBar />
@@ -10,4 +10,4 @@ const HealthWorkersPage = () => {
   );
 };
 
-export default HealthWorkersPage;
+export default UsersPage;

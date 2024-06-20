@@ -24,25 +24,25 @@ const routes: Routes = [
   {
     path: "/dashboard",
     icon: <Squares2X2Icon className={iconClasses} />,
-    name: "Dashboard",
+    name: "Home",
   },
   {
-    path: "/workplaces",
+    path: "/dashboard/workplaces",
     icon: <BuildingOfficeIcon className={iconClasses} />,
     name: "Workplaces",
   },
   {
-    path: "/patients",
+    path: "/dashboard/patients",
     icon: <UserGroupIcon className={iconClasses} />,
     name: "Patients",
   },
   {
-    path: "/health-workers",
+    path: "/dashboard/users",
     icon: <UsersIcon className={iconClasses} />,
-    name: "Health Workers",
+    name: "Users",
   },
   {
-    path: "/reports",
+    path: "/dashboard/reports",
     icon: <ChartPieIcon className={iconClasses} />,
     name: "Reports",
   },
