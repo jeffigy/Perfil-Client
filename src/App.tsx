@@ -7,13 +7,14 @@ const HomePage = lazy(() => import("pages/HomePage"));
 const LandingPage = lazy(() => import("pages/LandingPage"));
 const RootLayout = lazy(() => import("components/RootLayout"));
 const Layout = lazy(() => import("components/Layout/Layout"));
-const WorkplacesPage = lazy(() => import("pages/Workplaces/WorkplacesPage"));
+const WorkplacesPage = lazy(() => import("pages/Workplaces"));
+const WorkplaceDetails = lazy(() => import("pages/Workplaces/Details"));
+const EditWorkplace = lazy(() => import("pages/Workplaces/Edit"));
 const PatientsPage = lazy(() => import("pages/Patients"));
 const UsersPage = lazy(() => import("pages/Users"));
 const NewUser = lazy(() => import("pages/Users/New"));
 const EditUser = lazy(() => import("pages/Users/Edit"));
 const ReportsPage = lazy(() => import("pages/Reports"));
-
 function App() {
   useEffect(() => {
     themeChange(false);
@@ -30,6 +31,10 @@ function App() {
 
             <Route path="workplaces">
               <Route index element={<WorkplacesPage />} />
+              <Route path=":id">
+                <Route index element={<WorkplaceDetails />} />
+                <Route path="edit" element={<EditWorkplace />} />
+              </Route>
             </Route>
 
             <Route path="patients">

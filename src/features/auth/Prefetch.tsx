@@ -1,6 +1,7 @@
 import { store } from "app/store";
 import { patientsApiSlice } from "features/patients/patientsApiSlice";
 import { usersApiSlice } from "features/users/usersApiSlice";
+import { workplacesApiSlice } from "features/workplaces/workplacesApiSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -11,11 +12,15 @@ const Prefetch = () => {
       patientsApiSlice.endpoints.getPatients.initiate(),
     );
     const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate());
+    const workplaces = store.dispatch(
+      workplacesApiSlice.endpoints.getWorkplaces.initiate(),
+    );
 
     return () => {
       console.log("unsubscribing");
       patients.unsubscribe();
       users.unsubscribe();
+      workplaces.unsubscribe();
     };
   }, []);
 
