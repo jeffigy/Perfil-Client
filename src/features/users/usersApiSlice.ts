@@ -16,8 +16,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUsers: builder.query<EntityState<User, string>, void>({
       query: () => ({
         url: "/users",
-        validateStatus: (Response, result) => {
-          return Response.status === 200 && !result.isError;
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
         },
       }),
       transformResponse: (responseData: User[]) => {

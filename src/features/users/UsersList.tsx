@@ -11,7 +11,7 @@ const UsersList = () => {
     isError,
     error,
   } = useGetUsersQuery(undefined, {
-    pollingInterval: 15000,
+    pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
@@ -58,7 +58,9 @@ const UsersList = () => {
           </thead>
           <tbody>
             {ids?.length
-              ? ids.map((userId) => <User key={userId} userId={userId} />)
+              ? ids.map((userId: string) => (
+                  <User key={userId} userId={userId} />
+                ))
               : "no data"}
           </tbody>
         </table>
