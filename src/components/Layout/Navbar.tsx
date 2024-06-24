@@ -4,11 +4,26 @@ import {
   MoonIcon,
   BellIcon,
 } from "@heroicons/react/16/solid";
+import { useLogoutMutation } from "features/auth/authApiSlice";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { themeChange } from "theme-change";
+import { ErrorType } from "types/Error";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [logout, { isLoading, isSuccess, isError, error }] =
+    useLogoutMutation();
+
+  useEffect(() => {
+    if (isSuccess) navigate("/");
+  }, [isSuccess, navigate]);
+
+  useEffect(() => {
+    if (isError) toast.error((error as ErrorType).data.message);
+  }, [isError]);
+
   const [currentTheme, setCurrentTheme] = useState(
     localStorage.getItem("theme"),
   );
@@ -88,16 +103,15 @@ const Navbar = () => {
               className="menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
             >
               <li className="justify-between">
-                <Link to={"/app/settings-profile"}>
+                <button onClick={() => toast("Wow so Easy")}>
                   Profile Settings
-                  <span className="badge">New</span>
-                </Link>
+                </button>
               </li>
               <li className="">
-                <Link to={"/app/settings-billing"}>Bill History</Link>
+                <button onClick={logout}>
+                  {isLoading ? "Logging out..." : "Logout"}
+                </button>
               </li>
-              <div className="divider mb-0 mt-0"></div>
-              <li>{/* <a onClick={logoutUser}>Logout</a> */}</li>
             </ul>
           </div>
         </div>

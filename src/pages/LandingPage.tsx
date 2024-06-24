@@ -22,18 +22,18 @@ const LandingPage = () => {
           </p>
         </div>
 
-        <form className="w-full max-w-md space-y-6 max-md:mx-auto md:ml-auto">
+        <div className="w-full max-w-md space-y-6 max-md:mx-auto md:ml-auto">
           <h3 className="mb-8 text-3xl font-extrabold max-md:text-center">
             {isLogin ? "Sign in" : "Sign up"}
           </h3>
 
           {isLogin ? <LoginForm /> : <RegisterForm />}
 
-          <p className="my-10 text-center text-sm text-gray-400">
+          {/* <p className="my-10 text-center text-sm text-gray-400">
             or continue with
-          </p>
+          </p> */}
 
-          <div className="flex justify-center space-x-6">
+          {/* <div className="flex justify-center space-x-6">
             <div className="flex justify-center space-x-6">
               <button type="button" className="border-none outline-none">
                 <svg
@@ -101,7 +101,7 @@ const LandingPage = () => {
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center justify-center">
             <p className="mr-[1px] text-sm">
               {isLogin ? "Don't have an Account?" : "Already have an Account?"}
@@ -113,7 +113,7 @@ const LandingPage = () => {
               {isLogin ? "Register" : "Login"}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
