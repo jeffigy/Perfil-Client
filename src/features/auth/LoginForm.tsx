@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
+import usePersist from "hooks/usePersist";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [persist, setPersist] = usePersist();
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -20,6 +22,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const { accessToken } = await login({ email, password }).unwrap();
+
       dispatch(setCredentials({ accessToken }));
       setEmail("");
       setPassword("");
@@ -77,6 +80,8 @@ const LoginForm = () => {
           <input
             type="checkbox"
             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            onChange={() => setPersist(!persist)}
+            checked={persist}
           />
           <label htmlFor="" className="ml-3 block text-sm">
             Remember me
