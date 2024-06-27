@@ -5,6 +5,7 @@ import {
   BellIcon,
 } from "@heroicons/react/16/solid";
 import { useLogoutMutation } from "features/auth/authApiSlice";
+import useAuth from "hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,16 +14,10 @@ import { ErrorType } from "types/Error";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { email, roles } = useAuth();
+
   const [logout, { isLoading, isSuccess, isError, error }] =
     useLogoutMutation();
-
-  useEffect(() => {
-    if (isSuccess) navigate("/");
-  }, [isSuccess, navigate]);
-
-  useEffect(() => {
-    if (isError) toast.error((error as ErrorType).data.message);
-  }, [isError]);
 
   const [currentTheme, setCurrentTheme] = useState(
     localStorage.getItem("theme"),
@@ -41,6 +36,18 @@ const Navbar = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/", { replace: true });
+      console.log("success");
+    }
+  }, [isSuccess, navigate]);
+
+  useEffect(() => {
+    if (isError) toast.error((error as ErrorType).data.message);
+  }, [isError, error]);
+
   return (
     <>
       <div className="navbar sticky top-0 z-10  bg-base-100 shadow-md ">
@@ -102,15 +109,12 @@ const Navbar = () => {
               tabIndex={0}
               className="menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
             >
-              <li className="justify-between">
-                <button onClick={() => toast("Wow so Easy")}>
-                  Profile Settings
-                </button>
-              </li>
               <li className="">
-                <button onClick={logout}>
-                  {isLoading ? "Logging out..." : "Logout"}
-                </button>
+                <p>{email}</p>
+                <p>{roles}</p>
+              </li>
+              <li onClick={logout}>
+                {isLoading ? "Logging out..." : "Logout"}
               </li>
             </ul>
           </div>

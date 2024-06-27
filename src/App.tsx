@@ -3,6 +3,8 @@ import { lazy, useEffect } from "react";
 import { themeChange } from "theme-change";
 import Prefetch from "features/auth/Prefetch";
 import PersistLogin from "features/auth/PersisLogin";
+import RequireAuth from "features/auth/RequireAuth";
+import { Roles } from "utils/roles";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const LandingPage = lazy(() => import("pages/LandingPage"));
@@ -27,30 +29,54 @@ function App() {
         <Route index element={<LandingPage />} />
 
         <Route element={<PersistLogin />}>
-          <Route element={<Prefetch />}>
-            <Route path="dashboard" element={<Layout />}>
-              <Route index element={<HomePage />} />
+          <Route
+            element={<RequireAuth allowedRoles={[...Object.values(Roles)]} />}
+          >
+            <Route element={<Prefetch />}>
+              <Route path="dashboard" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route
+                  element={
+                    <RequireAuth
+                      allowedRoles={[
+                        Roles["Super Admin"],
+                        Roles.Admin,
+                        Roles["Health Worker"],
+                      ]}
+                    />
+                  }
+                >
+                  <Route path="workplaces">
+                    <Route index element={<WorkplacesPage />} />
+                    <Route path=":id">
+                      <Route index element={<WorkplaceDetails />} />
+                      <Route path="edit" element={<EditWorkplace />} />
+                    </Route>
+                  </Route>
 
-              <Route path="workplaces">
-                <Route index element={<WorkplacesPage />} />
-                <Route path=":id">
-                  <Route index element={<WorkplaceDetails />} />
-                  <Route path="edit" element={<EditWorkplace />} />
+                  <Route path="patients">
+                    <Route index element={<PatientsPage />} />
+                  </Route>
+
+                  <Route
+                    element={
+                      <RequireAuth
+                        allowedRoles={[Roles["Super Admin"], Roles.Admin]}
+                      />
+                    }
+                  >
+                    {" "}
+                    <Route path="users">
+                      <Route index element={<UsersPage />} />
+                      <Route path={"new"} element={<NewUser />} />
+                      <Route path={":id"} element={<EditUser />} />
+                    </Route>
+                  </Route>
+
+                  <Route path="reports">
+                    <Route index element={<ReportsPage />} />
+                  </Route>
                 </Route>
-              </Route>
-
-              <Route path="patients">
-                <Route index element={<PatientsPage />} />
-              </Route>
-
-              <Route path="users">
-                <Route index element={<UsersPage />} />
-                <Route path={"new"} element={<NewUser />} />
-                <Route path={":id"} element={<EditUser />} />
-              </Route>
-
-              <Route path="reports">
-                <Route index element={<ReportsPage />} />
               </Route>
             </Route>
           </Route>

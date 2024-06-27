@@ -52,7 +52,7 @@ const PersistLogin = () => {
     console.log("error");
     content = (
       <p className="errmsg">
-        {(error as ErrorType).data?.message}
+        {`${(error as ErrorType).data?.message} - `}
         <Link to="/login">Please login again</Link>.
       </p>
     );
