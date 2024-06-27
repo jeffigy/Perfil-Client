@@ -10,17 +10,30 @@ const NewUserForm = () => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState("Health Worker");
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [selectedRoles, setSelectedRoles] = useState<string[]>([
+    "Health Worker",
+  ]);
 
   const canSave =
-    [selectedRole, email, password, name].every(Boolean) && !isLoading;
+    [selectedRoles, email, password, name].every(Boolean) && !isLoading;
+
+  const onChangeRoles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const role = e.target.value;
+    const isChecked = e.target.checked;
+
+    setSelectedRoles((prevSelectedRoles) =>
+      isChecked
+        ? [...prevSelectedRoles, role]
+        : prevSelectedRoles.filter((r) => r !== role),
+    );
+  };
 
   useEffect(() => {
     if (isSuccess) {
-      setEmail(""), setPassword(""), setSelectedRole("");
+      setEmail(""), setPassword(""), setSelectedRoles([]);
       navigate("/dashboard/users");
     }
   });
@@ -28,7 +41,7 @@ const NewUserForm = () => {
   const newUserObj = {
     email,
     password,
-    role: selectedRole,
+    roles: selectedRoles,
     name,
   };
   const onSubmit = async (
@@ -37,7 +50,6 @@ const NewUserForm = () => {
     e.preventDefault();
     if (canSave) {
       await addNewUser(newUserObj);
-      console.log();
     }
   };
 
@@ -112,26 +124,32 @@ const NewUserForm = () => {
 
           {Object.values(Roles).map((role) => {
             return (
-              <label
-                className="label cursor-pointer justify-start space-x-1"
-                key={role}
-              >
-                <input
-                  value={role}
-                  type="radio"
-                  name="radio-10"
-                  className="radio-primary radio"
-                  checked={selectedRole === role}
-                  onChange={(e) => setSelectedRole(e.target.value)}
-                />
-                <span className="label-text">{role}</span>
-              </label>
+              <div className="form-control" key={role}>
+                <label className="label cursor-pointer space-x-1">
+                  <span className="label-text">{role}</span>
+                  <input
+                    type="checkbox"
+                    id={role}
+                    value={role}
+                    checked={selectedRoles.includes(role)}
+                    onChange={onChangeRoles}
+                    className="checkbox-primary checkbox"
+                  />
+                </label>
+              </div>
             );
           })}
         </div>
         <div className="card-actions justify-end space-x-1">
-          <button className="btn btn-ghost btn-neutral ">Cancel</button>
-          <button className="btn btn-primary ">Submit</button>
+          <button
+            className="btn btn-ghost btn-neutral "
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary ">
+            Submit
+          </button>
         </div>
       </div>
     </form>

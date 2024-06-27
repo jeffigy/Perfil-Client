@@ -18,17 +18,17 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState(user.email);
-  const [name, setName] = useState(user.name);
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>(user.email);
+  const [name, setName] = useState<string>(user.name);
+  const [password, setPassword] = useState<string>("");
   const [active, setActive] = useState(user.active);
-  const [selectedRole, setSelectedRole] = useState(user.role);
+  const [selectedRoles, setSelectedRoles] = useState<string[]>(user.roles);
 
-  const canSave = [selectedRole, email, name].every(Boolean) && !isLoading;
+  const canSave = [selectedRoles, email, name].every(Boolean) && !isLoading;
 
   useEffect(() => {
     if (isSuccess || isDelSuccess) {
-      setEmail(""), setPassword(""), setSelectedRole("");
+      setEmail(""), setPassword(""), setSelectedRoles([]);
       navigate("/dashboard/users");
     }
   });
@@ -37,7 +37,7 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
     id: user.id,
     email,
     password,
-    role: selectedRole,
+    roles: selectedRoles,
     name,
     active,
   };
@@ -48,6 +48,17 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
     if (canSave) {
       await updateUser(userObj);
     }
+  };
+
+  const onChangeRoles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const role = e.target.value;
+    const isChecked = e.target.checked;
+
+    setSelectedRoles((prevSelectedRoles) =>
+      isChecked
+        ? [...prevSelectedRoles, role]
+        : prevSelectedRoles.filter((r) => r !== role),
+    );
   };
 
   const onDelete = async () => {
@@ -143,20 +154,19 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
 
           {Object.values(Roles).map((role) => {
             return (
-              <label
-                className="label cursor-pointer justify-start space-x-1"
-                key={role}
-              >
-                <input
-                  value={role}
-                  type="radio"
-                  name="radio-10"
-                  className="radio-primary radio"
-                  checked={selectedRole === role}
-                  onChange={(e) => setSelectedRole(e.target.value)}
-                />
-                <span className="label-text">{role}</span>
-              </label>
+              <div className="form-control" key={role}>
+                <label className="label cursor-pointer space-x-1">
+                  <span className="label-text">{role}</span>
+                  <input
+                    type="checkbox"
+                    id={role}
+                    value={role}
+                    checked={selectedRoles.includes(role)}
+                    onChange={onChangeRoles}
+                    className="checkbox-primary checkbox"
+                  />
+                </label>
+              </div>
             );
           })}
         </div>
@@ -173,7 +183,12 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
           </label>
         </div>
         <div className="card-actions justify-between space-x-1">
-          <button className="btn btn-ghost btn-neutral ">Cancel</button>
+          <button
+            onClick={() => navigate(-1)}
+            className="btn btn-ghost btn-neutral "
+          >
+            Cancel
+          </button>
           <button className="btn btn-error" onClick={onDelete}>
             delete
           </button>

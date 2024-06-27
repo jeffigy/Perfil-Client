@@ -2,7 +2,7 @@ export type Patient = {
   _id: string;
   id: string;
   email: string;
-  role: string;
+  roles: string[];
   name: string;
   bday: number;
   gender: string;
