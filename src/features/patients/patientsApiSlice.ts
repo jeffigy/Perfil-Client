@@ -13,7 +13,7 @@ const initialState = patientsAdapter.getInitialState();
 
 export const patientsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPatients: builder.query<EntityState<Patient, string>, void>({
+    getPatients: builder.query<EntityState<Patient>, string | void>({
       query: () => ({
         url: "/patients",
         validateStatus: (Response, result) => {
@@ -26,8 +26,8 @@ export const patientsApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) => {
         if (result?.ids) {
           return [
-            ...result.ids.map((id) => ({ type: "Patient" as const, id })),
             { type: "Patient", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Patient" as const, id })),
           ];
         } else {
           return [{ type: "Patient", id: "LIST" }];

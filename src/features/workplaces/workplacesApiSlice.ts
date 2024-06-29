@@ -13,7 +13,7 @@ const initialState = workplaceAdapter.getInitialState();
 
 export const workplacesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getWorkplaces: builder.query<EntityState<Workplace, string>, void>({
+    getWorkplaces: builder.query<EntityState<Workplace>, string | void>({
       query: () => ({
         url: "/workplaces",
         validateStatus: (response, result) => {
@@ -26,8 +26,8 @@ export const workplacesApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) => {
         if (result?.ids) {
           return [
-            ...result.ids.map((id) => ({ type: "Workplace" as const, id })),
             { type: "Workplace", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Workplace" as const, id })),
           ];
         } else {
           return [{ type: "Workplace", id: "LIST" }];
@@ -58,6 +58,7 @@ export const workplacesApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { id },
       }),
+      invalidatesTags: (arg) => [{ type: "Workplace", id: arg.id }],
     }),
   }),
 });

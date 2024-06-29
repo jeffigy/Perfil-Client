@@ -13,7 +13,7 @@ const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getUsers: builder.query<EntityState<User, string>, void>({
+    getUsers: builder.query<EntityState<User>, string | void>({
       query: () => ({
         url: "/users",
         validateStatus: (response, result) => {
@@ -26,8 +26,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) => {
         if (result?.ids) {
           return [
-            ...result.ids.map((id) => ({ type: "User" as const, id })),
             { type: "User", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "User" as const, id })),
           ];
         } else {
           return [{ type: "User", id: "LIST" }];
@@ -60,6 +60,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { id },
       }),
+      invalidatesTags: (_result, _error, arg) => [{ type: "User", id: arg.id }],
     }),
   }),
 });
