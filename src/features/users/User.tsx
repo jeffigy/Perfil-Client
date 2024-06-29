@@ -1,20 +1,22 @@
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
-import { selectUserById } from "./usersApiSlice";
-import { useAppSelector } from "app/hooks";
+import React, { memo } from "react";
+import { useGetUsersQuery } from "./usersApiSlice";
 import { useNavigate } from "react-router-dom";
-import { User as UserType } from "types/User";
+import { EntityId } from "@reduxjs/toolkit";
 
 type UserProps = {
-  userId: string;
+  userId: EntityId;
 };
 
 const User: React.FC<UserProps> = ({ userId }) => {
-  const user: UserType = useAppSelector((state) =>
-    selectUserById(state, userId),
-  );
+  const { user } = useGetUsersQuery("usersList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[userId],
+    }),
+  });
 
   const navigate = useNavigate();
+
   if (!user) {
     return null;
   }
@@ -23,7 +25,7 @@ const User: React.FC<UserProps> = ({ userId }) => {
     <tr>
       <td>{user.name}</td>
       <td>{user.email}</td>
-      <td>{user.role}</td>
+      <td>{user.roles}</td>
       <td>
         <button
           className="btn btn-square btn-link  btn-sm "
@@ -35,4 +37,7 @@ const User: React.FC<UserProps> = ({ userId }) => {
     </tr>
   );
 };
-export default User;
+
+const memoizedUser = memo(User);
+
+export default memoizedUser;

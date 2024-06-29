@@ -2,6 +2,7 @@ import Loader from "components/Loader";
 import { useGetUsersQuery } from "./usersApiSlice";
 import { ErrorType } from "types/Error";
 import User from "./User";
+import { EntityId } from "@reduxjs/toolkit";
 
 const UsersList = () => {
   const {
@@ -10,8 +11,8 @@ const UsersList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetUsersQuery(undefined, {
-    pollingInterval: 15000,
+  } = useGetUsersQuery("usersList", {
+    pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
@@ -57,11 +58,10 @@ const UsersList = () => {
             </tr>
           </thead>
           <tbody>
-            {ids?.length
-              ? ids.map((userId: string) => (
-                  <User key={userId} userId={userId} />
-                ))
-              : "no data"}
+            {ids.length &&
+              ids.map((userId: EntityId) => (
+                <User key={userId} userId={userId} />
+              ))}
           </tbody>
         </table>
       </div>

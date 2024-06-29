@@ -1,31 +1,30 @@
-import { useAppSelector } from "app/hooks";
-import React from "react";
-import { selectPatientById } from "./patientsApiSlice";
-import { Patient as PatientType } from "types/Patient";
-import { useNavigate } from "react-router-dom";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import useFormattedDate from "hooks/useFormattedDate";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useGetPatientsQuery } from "./patientsApiSlice";
 
 type PatientProps = {
   patientId: string;
 };
 
 const Patient: React.FC<PatientProps> = ({ patientId }) => {
-  const user: PatientType = useAppSelector((state) =>
-    selectPatientById(state, patientId),
-  );
-
-  const formattedDate = useFormattedDate(user.createdAt);
   const navigate = useNavigate();
+  const { patient } = useGetPatientsQuery("patientsList", {
+    selectFromResult: ({ data }) => ({
+      patient: data?.entities[patientId],
+    }),
+  });
 
-  if (!user) {
+  if (!patient) {
     return null;
   }
 
+  const formattedDate = useFormattedDate(patient.createdAt);
   return (
     <tr>
-      <td>{user.name}</td>
-      <td>{user.email}</td>
+      <td>{patient.name}</td>
+      <td>{patient.email}</td>
       <td>{formattedDate}</td>
       <td>
         <button

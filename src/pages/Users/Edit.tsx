@@ -1,12 +1,15 @@
-import { useAppSelector } from "app/hooks";
 import EditUserForm from "features/users/EditUserForm";
-import { selectUserById } from "features/users/usersApiSlice";
+import { useGetUsersQuery } from "features/users/usersApiSlice";
 import { useParams } from "react-router-dom";
 
 const EditUserPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const user = useAppSelector((state) => selectUserById(state, id!));
+  const { user } = useGetUsersQuery("usersList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id!],
+    }),
+  });
 
   return (
     <div className="flex justify-center">
