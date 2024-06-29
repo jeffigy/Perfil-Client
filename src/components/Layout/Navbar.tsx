@@ -40,7 +40,6 @@ const Navbar = () => {
   useEffect(() => {
     if (isSuccess) {
       navigate("/", { replace: true });
-      console.log("success");
     }
   }, [isSuccess, navigate]);
 
