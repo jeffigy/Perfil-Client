@@ -5,6 +5,7 @@ import Prefetch from "features/auth/Prefetch";
 import PersistLogin from "features/auth/PersisLogin";
 import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
+import NotFound from "pages/NotFound";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const LandingPage = lazy(() => import("pages/LandingPage"));
@@ -18,6 +19,7 @@ const UsersPage = lazy(() => import("pages/Users"));
 const NewUser = lazy(() => import("pages/Users/New"));
 const EditUser = lazy(() => import("pages/Users/Edit"));
 const ReportsPage = lazy(() => import("pages/Reports"));
+
 function App() {
   useEffect(() => {
     themeChange(false);
@@ -82,6 +84,7 @@ function App() {
           </Route>
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
