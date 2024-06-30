@@ -5,8 +5,10 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import Stat from "../components/Dashboard/Stat";
+import useTitle from "hooks/useTitle";
 
 const HomePage = () => {
+  useTitle("Dashboard");
   const statsData = [
     {
       title: "New Users",

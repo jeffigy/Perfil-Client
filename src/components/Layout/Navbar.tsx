@@ -4,6 +4,7 @@ import {
   MoonIcon,
   BellIcon,
 } from "@heroicons/react/16/solid";
+import { useAppSelector } from "app/hooks";
 import { useLogoutMutation } from "features/auth/authApiSlice";
 import useAuth from "hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import { themeChange } from "theme-change";
 import { ErrorType } from "types/Error";
 
 const Navbar = () => {
+  const { pageTitle } = useAppSelector((state) => state.header);
   const navigate = useNavigate();
   const { email, roles } = useAuth();
 
@@ -49,7 +51,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar sticky top-0 z-10  bg-base-100 shadow-md ">
+      <div className="navbar sticky top-0 z-10  bg-base-100 shadow-sm ">
         {/* Menu toogle for mobile view or small screen */}
         <div className="flex-1">
           <label
@@ -58,7 +60,7 @@ const Navbar = () => {
           >
             <Bars3Icon className="inline-block h-5 w-5" />
           </label>
-          <h1 className="ml-2 text-2xl font-semibold">{"page title"}</h1>
+          <h1 className="ml-2 text-2xl font-semibold">{pageTitle}</h1>
         </div>
 
         <div className="flex-none ">

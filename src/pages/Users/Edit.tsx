@@ -1,8 +1,10 @@
 import EditUserForm from "features/users/EditUserForm";
 import { useGetUsersQuery } from "features/users/usersApiSlice";
+import useTitle from "hooks/useTitle";
 import { useParams } from "react-router-dom";
 
 const EditUserPage = () => {
+  useTitle("Edit User");
   const { id } = useParams<{ id: string }>();
 
   const { user } = useGetUsersQuery("usersList", {
