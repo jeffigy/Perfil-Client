@@ -1,62 +1,76 @@
 import { useNavigate } from "react-router-dom";
 import { useSignupMutation } from "./authApiSlice";
 import { useAppDispatch } from "app/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setCredentials } from "./authSlice";
+import { ErrorType } from "types/Error";
+import Alert from "components/Feedback/Alert";
+import usePersist from "hooks/usePersist";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [persist, setPersist] = usePersist();
+  const [signup, { isLoading, isError, error, isSuccess }] =
+    useSignupMutation();
 
-  const [signup, { isLoading }] = useSignupMutation();
   const onSubmit = async (
     e: React.FormEvent<HTMLFormElement | HTMLInputElement>,
   ) => {
     e.preventDefault();
-    try {
-      const { accessToken } = await signup({ email, name, password }).unwrap();
+
+    const { accessToken } = await signup({
+      email,
+      name,
+      password,
+      confirmPassword,
+    }).unwrap();
+
+    if (accessToken) {
       dispatch(setCredentials({ accessToken }));
       setEmail("");
       setPassword("");
       setName("");
-      navigate("/dashboard");
-    } catch (err: any) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      setConfirmPassword("");
     }
   };
+  useEffect(() => {
+    setPersist(false);
+  }, []);
+
+  useEffect(() => {
+    if (isError) {
+      setShowAlert(true);
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setPersist(!persist);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (persist) {
+      navigate("/dashboard");
+    }
+  }, [persist]);
 
   return (
     <form className="space-y-6" onSubmit={onSubmit}>
-      {errMsg && (
-        <div role="alert" className="alert alert-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 shrink-0 stroke-current"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>{errMsg}</span>
-        </div>
+      {showAlert && (
+        <Alert type="error" message={(error as ErrorType)?.data?.message} />
       )}
       <input
         value={name}
@@ -77,13 +91,15 @@ const RegisterForm = () => {
       <input
         value={password}
         onChange={({ target }) => setPassword(target.value)}
-        type="text"
+        type="password"
         placeholder="Password"
         className="input input-primary w-full border-none bg-gray-100"
       />
 
       <input
-        type="text"
+        value={confirmPassword}
+        onChange={({ target }) => setConfirmPassword(target.value)}
+        type="password"
         placeholder="Confirm Password"
         className="input input-primary w-full border-none bg-gray-100"
       />
