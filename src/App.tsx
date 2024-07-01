@@ -7,8 +7,9 @@ import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
 import NotFound from "pages/NotFound";
 
-const HomePage = lazy(() => import("pages/HomePage"));
-const LandingPage = lazy(() => import("pages/LandingPage"));
+const ForgotPassword = lazy(() => import("pages/Auth/ForgotPassword"));
+const HomePage = lazy(() => import("pages/Dashboard"));
+const LandingPage = lazy(() => import("pages/Auth/LandingPage"));
 const RootLayout = lazy(() => import("components/RootLayout"));
 const Layout = lazy(() => import("components/Layout/Layout"));
 const WorkplacesPage = lazy(() => import("pages/Workplaces"));
@@ -29,6 +30,7 @@ function App() {
     <Routes>
       <Route path="/" element={<RootLayout />}>
         <Route index element={<LandingPage />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
 
         <Route element={<PersistLogin />}>
           <Route
