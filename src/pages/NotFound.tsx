@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
+  const navigate = useNavigate();
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
@@ -15,9 +16,9 @@ const NotFound = () => {
             Sorry, we can't find that page. You'll find lots to explore on the
             home page.{" "}
           </p>
-          <Link to={"/dashboard"} className="btn btn-primary">
-            Back to Homepage
-          </Link>
+          <button onClick={() => navigate(-1)} className="btn btn-primary">
+            Go back
+          </button>
         </div>
       </div>
     </section>
