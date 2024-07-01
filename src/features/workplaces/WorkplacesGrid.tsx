@@ -42,7 +42,7 @@ const WorkplacesGrid = () => {
         <div className="xxl:grid-cols-4 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ">
           {isSuccess &&
             workplaces.ids.map((workplaceId) => (
-              <WorkplaceCard workplaceId={workplaceId} />
+              <WorkplaceCard key={workplaceId} workplaceId={workplaceId} />
             ))}
 
           {isLoading &&

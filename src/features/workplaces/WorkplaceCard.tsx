@@ -1,16 +1,16 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 import { useAppSelector } from "app/hooks";
 import React from "react";
-import { Workplace } from "types/Workplace";
 import { selectWorkplaceById } from "./workplacesApiSlice";
 import { Link } from "react-router-dom";
+import { EntityId } from "@reduxjs/toolkit";
 
 type WorkplaceCardProps = {
-  workplaceId: string;
+  workplaceId: EntityId;
 };
 
 const WorkplaceCard: React.FC<WorkplaceCardProps> = ({ workplaceId }) => {
-  const workplace: Workplace = useAppSelector((state) =>
+  const workplace = useAppSelector((state) =>
     selectWorkplaceById(state, workplaceId),
   );
 
