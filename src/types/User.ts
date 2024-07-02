@@ -6,4 +6,5 @@ export type User = {
   password: string;
   roles: string[];
   active?: boolean;
+  createdAt: string;
 };
