@@ -20,6 +20,7 @@ const UsersPage = lazy(() => import("pages/Users"));
 const NewUser = lazy(() => import("pages/Users/New"));
 const EditUser = lazy(() => import("pages/Users/Edit"));
 const ReportsPage = lazy(() => import("pages/Reports"));
+const Profile = lazy(() => import("pages/Profile"));
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
             <Route element={<Prefetch />}>
               <Route path="dashboard" element={<Layout />}>
                 <Route index element={<HomePage />} />
+                <Route path="profile" element={<Profile />} />
                 <Route
                   element={
                     <RequireAuth
