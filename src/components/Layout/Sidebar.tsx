@@ -20,7 +20,7 @@ const Sidebar = () => {
         </button>
 
         <li className="mb-2 text-xl font-semibold">
-          <Link to={"/app/welcome"}>
+          <Link to={"/dashboard"}>
             <img
               className="mask mask-squircle w-10"
               src="/logo.png"

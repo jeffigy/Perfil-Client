@@ -1,14 +1,9 @@
-import {
-  Bars3Icon,
-  SunIcon,
-  MoonIcon,
-  BellIcon,
-} from "@heroicons/react/16/solid";
+import { SunIcon, MoonIcon, BellIcon } from "@heroicons/react/16/solid";
 import { useAppSelector } from "app/hooks";
 import { useLogoutMutation } from "features/auth/authApiSlice";
 import useAuth from "hooks/useAuth";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { themeChange } from "theme-change";
 import { ErrorType } from "types/Error";
@@ -16,10 +11,12 @@ import { ErrorType } from "types/Error";
 const Navbar = () => {
   const { pageTitle } = useAppSelector((state) => state.header);
   const navigate = useNavigate();
-  const { email, roles } = useAuth();
+  const { email, status, roles } = useAuth();
 
   const [logout, { isLoading, isSuccess, isError, error }] =
     useLogoutMutation();
+
+  const isPatient = useMemo(() => roles.includes("Patient"), [roles]);
 
   const [currentTheme, setCurrentTheme] = useState(
     localStorage.getItem("theme"),
@@ -52,19 +49,23 @@ const Navbar = () => {
   return (
     <>
       <div className="navbar sticky top-0 z-10  bg-base-100 shadow-sm ">
-        {/* Menu toogle for mobile view or small screen */}
         <div className="flex-1">
-          <label
-            htmlFor="left-sidebar-drawer"
-            className="btn btn-outline btn-primary drawer-button lg:hidden"
-          >
-            <Bars3Icon className="inline-block h-5 w-5" />
-          </label>
-          <h1 className="ml-2 text-2xl font-semibold">{pageTitle}</h1>
+          {isPatient ? (
+            <Link to={"/dashboard"}>
+              <img
+                className="mask mask-squircle w-10"
+                src="/logo.png"
+                alt="DashWind Logo"
+              />
+            </Link>
+          ) : (
+            <>
+              <h1 className="ml-2 text-2xl font-semibold">{pageTitle}</h1>
+            </>
+          )}
         </div>
 
         <div className="flex-none ">
-          {/* Light and dark theme selection toogle **/}
           <label className="swap ">
             <input type="checkbox" />
             <SunIcon
@@ -99,23 +100,35 @@ const Navbar = () => {
             </div>
           </button>
 
-          {/* Profile icon, opening menu on click */}
-          <div className="dropdown dropdown-end ml-4">
+          <div className="ml-4v dropdown dropdown-end ">
             <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
               <div className="w-10 rounded-full">
-                <img src="https://placeimg.com/80/80/people" alt="profile" />
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  alt="profile"
+                />
               </div>
             </label>
             <ul
               tabIndex={0}
-              className="menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+              className="menu-compact menu dropdown-content mt-3 w-52 divide-y rounded-box bg-base-100 p-2 shadow"
             >
-              <li className="">
-                <p>{email}</p>
-                <p>{roles}</p>
+              <div className="flex flex-col items-center space-y-1 py-5">
+                <div className="avatar">
+                  <div className="w-24 rounded-full">
+                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  </div>
+                </div>
+                <p className="font-medium">{email}</p>
+                <p>{status}</p>
+              </div>
+              <li>
+                <Link to={"/dashboard/profile"}>Profile</Link>
               </li>
-              <li onClick={logout}>
-                {isLoading ? "Logging out..." : "Logout"}
+              <li>
+                <button onClick={logout}>
+                  {isLoading ? "Logging out..." : "Logout"}
+                </button>
               </li>
             </ul>
           </div>
