@@ -5,7 +5,7 @@ import Prefetch from "features/auth/Prefetch";
 import PersistLogin from "features/auth/PersisLogin";
 import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
-import NotFound from "pages/NotFound";
+import CheckEmail from "pages/Auth/CheckEmail";
 
 const ForgotPassword = lazy(() => import("pages/Auth/ForgotPassword"));
 const HomePage = lazy(() => import("pages/Dashboard"));
@@ -21,6 +21,8 @@ const NewUser = lazy(() => import("pages/Users/New"));
 const EditUser = lazy(() => import("pages/Users/Edit"));
 const ReportsPage = lazy(() => import("pages/Reports"));
 const Profile = lazy(() => import("pages/Profile"));
+const Verify = lazy(() => import("pages/Auth/Verify"));
+const NotFound = lazy(() => import("pages/NotFound"));
 
 function App() {
   useEffect(() => {
@@ -32,6 +34,8 @@ function App() {
       <Route path="/" element={<RootLayout />}>
         <Route index element={<LandingPage />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify/:token" element={<Verify />} />
+        <Route path="/check-email" element={<CheckEmail />} />
 
         <Route element={<PersistLogin />}>
           <Route

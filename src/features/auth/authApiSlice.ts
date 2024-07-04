@@ -10,6 +10,12 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
+    verify: builder.mutation({
+      query: (token) => ({
+        url: `/auth/verify/${token}`,
+        method: "GET",
+      }),
+    }),
     login: builder.mutation({
       query: (credentials) => ({
         url: "/auth/login",
@@ -57,6 +63,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useSignupMutation,
+  useVerifyMutation,
   useLoginMutation,
   useLogoutMutation,
   useRefreshMutation,
