@@ -77,7 +77,10 @@ type AlertProps = {
 
 const Alert: React.FC<AlertProps> = ({ type, message }) => {
   return (
-    <div role="alert" className={`alert ${alertClasses[type]}`}>
+    <div
+      role="alert"
+      className={`alert ${alertClasses[type]} mx-auto max-w-xl rounded-md`}
+    >
       {iconTypes[type]}
       <span>{message}</span>
     </div>
