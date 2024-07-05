@@ -1,4 +1,5 @@
 import { SunIcon, MoonIcon, BellIcon } from "@heroicons/react/16/solid";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useAppSelector } from "app/hooks";
 import { useLogoutMutation } from "features/auth/authApiSlice";
 import useAuth from "hooks/useAuth";
@@ -60,6 +61,12 @@ const Navbar = () => {
             </Link>
           ) : (
             <>
+              <label
+                htmlFor="left-sidebar-drawer"
+                className="btn btn-outline btn-primary drawer-button lg:hidden"
+              >
+                <Bars3Icon className="inline-block h-5 w-5" />
+              </label>
               <h1 className="ml-2 text-2xl font-semibold">{pageTitle}</h1>
             </>
           )}

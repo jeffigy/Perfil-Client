@@ -1,6 +1,13 @@
+import usePersist from "hooks/usePersist";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const CheckEmail = () => {
+  const [_persist, setPersist] = usePersist();
+
+  useEffect(() => {
+    setPersist(false);
+  }, []);
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden py-6  sm:py-12">
       <div className="max-w-xl space-y-3 text-center">

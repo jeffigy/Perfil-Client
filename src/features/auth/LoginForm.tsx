@@ -7,7 +7,7 @@ import usePersist from "hooks/usePersist";
 import Alert from "components/Feedback/Alert";
 import { ErrorType } from "types/Error";
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -16,25 +16,36 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [persist, setPersist] = usePersist();
 
-  const [login, { isLoading, isError, error, isSuccess }] = useLoginMutation();
+  const [login, { isLoading, isError, error }] = useLoginMutation();
 
-  const onSubmit = async (
-    e: React.FormEvent<HTMLFormElement | HTMLInputElement>,
-  ) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { accessToken } = await login({ email, password }).unwrap();
+    try {
+      const { accessToken } = await login({ email, password }).unwrap();
+      console.log("Access Token:", accessToken);
 
-    if (accessToken) {
-      dispatch(setCredentials({ accessToken }));
       setEmail("");
       setPassword("");
+
+      if (accessToken) {
+        dispatch(setCredentials({ accessToken }));
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      const error = err as ErrorType;
+      if (
+        error.status === 401 &&
+        error.data?.message ===
+          "Email not verified. A new verification email has been sent"
+      ) {
+        navigate("/check-email");
+      } else {
+        setShowAlert(true);
+      }
     }
   };
-
-  useEffect(() => {
-    setPersist(false);
-  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -47,14 +58,8 @@ const LoginForm = () => {
     }
   }, [isError]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/dashboard");
-    }
-  }, [isSuccess]);
-
   return (
-    <form className="space-y-6" onSubmit={onSubmit} action="">
+    <form className="space-y-6" onSubmit={onSubmit}>
       {showAlert && (
         <Alert type={"error"} message={(error as ErrorType)?.data?.message} />
       )}
@@ -62,7 +67,7 @@ const LoginForm = () => {
       <input
         value={email}
         onChange={({ target }) => setEmail(target.value)}
-        type="text"
+        type="email"
         placeholder="Email"
         className="input input-primary w-full border-none bg-gray-100"
       />
@@ -82,7 +87,7 @@ const LoginForm = () => {
             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             onChange={() => setPersist(!persist)}
             checked={persist}
-            disabled={email === "" || password === "" ? true : false}
+            disabled={!email || !password}
           />
           <label htmlFor="" className="ml-3 block text-sm">
             Remember me
@@ -104,7 +109,7 @@ const LoginForm = () => {
           <>
             {" "}
             <span className="loading loading-spinner"></span>
-            loading
+            Logging in
           </>
         ) : (
           "Login"
