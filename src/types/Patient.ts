@@ -1,18 +1,19 @@
 export type Patient = {
-  _id: string;
   id: string;
   email: string;
   roles: string[];
   name: string;
   bday: number;
   gender: string;
-  civil_status: string;
-  fathers_name: string;
-  mothers_name: string;
+  civilStatus: string;
+  fathersName: string;
+  mothersName: string;
   ethnicity: string;
   religion: string;
   nationality: string;
   address: string;
   workplace: string;
+  avatar: string;
+  cloudinary_url: string;
   createdAt: string;
 };

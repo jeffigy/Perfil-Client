@@ -1,96 +1,124 @@
 import InfoEntry from "components/Profile/InfoEntry";
 import { useGetPatientsQuery } from "features/patients/patientsApiSlice";
+import UpdateProfile from "features/patients/UpdateProfile";
 import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useAuth from "hooks/useAuth";
 import useFormattedDate from "hooks/useFormattedDate";
 import useTitle from "hooks/useTitle";
+import { Patient } from "types/Patient";
 
-const index = () => {
+// Define the type guard
+function isPatient(profile: any): profile is Patient {
+  return (profile as Patient).bday !== undefined;
+}
+
+const Profile = () => {
   useTitle("Profile");
   const { email, status } = useAuth();
 
-  const { user } = useGetUsersQuery("usersList ", {
-    selectFromResult: ({ data }) => ({
-      user: data
-        ? Object.values(data.entities).find((entity) => entity?.email === email)
-        : undefined,
-    }),
-  });
+  const {
+    data: usersData,
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetUsersQuery("usersList");
+  const {
+    data: patientsData,
+    isLoading: isPatientsLoading,
+    isError: isPatientsError,
+  } = useGetPatientsQuery("patientsList");
 
-  const { patient } = useGetPatientsQuery("patientsList", {
-    selectFromResult: ({ data }) => ({
-      patient: data
-        ? Object.values(data.entities).find((entity) => entity?.email === email)
-        : undefined,
-    }),
-  });
+  const user = usersData
+    ? Object.values(usersData.entities).find(
+        (entity) => entity?.email === email,
+      )
+    : undefined;
+  const patient = patientsData
+    ? Object.values(patientsData.entities).find(
+        (entity) => entity?.email === email,
+      )
+    : undefined;
 
-  const profile = user || patient;
-  const createAt = useFormattedDate(profile?.createdAt || "");
+  const profile = patient || user;
+  const createdAt = useFormattedDate(profile?.createdAt || "");
 
-  if (profile) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="grid grid-cols-4 gap-6 px-4 sm:grid-cols-12">
-          <div className="col-span-4 sm:col-span-5">
-            <div className="card rounded-md bg-base-100 text-neutral-content shadow-sm">
-              <div className="card-body">
-                <div className="flex flex-col items-center">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/94.jpg"
-                    className="mb-4 h-32 w-32 shrink-0 rounded-full bg-gray-300"
-                  ></img>
-                  <h1 className="text-xl font-bold">{profile.name}</h1>
+  if (isUsersLoading || isPatientsLoading) {
+    return <div>Loading...</div>;
+  }
 
-                  <div className="my-3 flex w-full flex-col">
-                    <button className="btn btn-primary w-full">
-                      Update Profile
-                    </button>
-                    <button className="btn btn-ghost w-full text-primary">
-                      View pink card
-                    </button>
-                  </div>
-                </div>
-                <hr className="border-t border-gray-300" />
-                <div className="flex flex-col space-y-3">
-                  <InfoEntry label={"Email"} value={profile.email} />
-                  {status !== "Patient" && (
-                    <InfoEntry label={"Role"} value={status} />
-                  )}
-                  <InfoEntry label={"Date created"} value={createAt} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-span-4 sm:col-span-7">
-            <div className="card rounded-md bg-base-100 shadow-sm">
-              <div className="card-body">
-                {profile.roles.includes("Patient") ? (
-                  <>
-                    <InfoEntry label={"Birthday"} value={"sample data"} />
-                    <InfoEntry label={"Gender"} value={"sample data"} />
-                    <InfoEntry label={"Civil Status"} value={"sample data"} />
-                    <InfoEntry label={"Fathers Name"} value={"sample data"} />
-                    <InfoEntry label={"Mothers Name"} value={"sample data"} />
-                    <InfoEntry label={"Ethinicity"} value={"sample data"} />
-                    <InfoEntry label={"Religion"} value={"sample data"} />
-                    <InfoEntry label={"Nationality"} value={"sample data"} />
-                    <InfoEntry label={"Address"} value={"sample data"} />
-                    <InfoEntry label={"Workplace"} value={"sample data"} />
-                  </>
-                ) : (
-                  <p className="mx-auto">
-                    {" "}
-                    This section is currently unvailable
-                  </p>
-                )}
-              </div>
-            </div>
+  if (isUsersError || isPatientsError) {
+    return <div>Error loading data.</div>;
+  }
+
+  if (!profile) {
+    return <div>No profile found.</div>;
+  }
+
+  const ProfileInfo = () => (
+    <div className="card rounded-md bg-base-100 text-neutral-content shadow-sm">
+      <div className="card-body">
+        <div className="flex flex-col items-center">
+          <img
+            src={profile.avatar}
+            className="mb-4 h-32 w-32 shrink-0 rounded-full bg-gray-300"
+            alt="Avatar"
+          />
+          <h1 className="text-xl font-bold">{profile.name}</h1>
+          <div className="my-3 flex w-full flex-col">
+            <UpdateProfile userId={profile.id} />
+            <button className="btn btn-primary w-full">Update Profile</button>
+            <button className="btn btn-ghost w-full text-primary">
+              View pink card
+            </button>
           </div>
         </div>
+        <hr className="border-t border-gray-300" />
+        <div className="flex flex-col space-y-3">
+          <InfoEntry label="Email" value={profile.email} />
+          {status !== "Patient" && <InfoEntry label="Role" value={status} />}
+          <InfoEntry label="Date created" value={createdAt} />
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+
+  const AdditionalInfo = () => (
+    <div className="card rounded-md bg-base-100 shadow-sm">
+      <div className="card-body">
+        {isPatient(profile) ? (
+          <>
+            <InfoEntry
+              label="Birthday"
+              value={new Date(profile.bday).toString()}
+            />
+            <InfoEntry label="Gender" value={profile.gender} />
+            <InfoEntry label="Civil Status" value={profile.civilStatus} />
+            <InfoEntry label="Fathers Name" value={profile.fathersName} />
+            <InfoEntry label="Mothers Name" value={profile.mothersName} />
+            <InfoEntry label="Ethnicity" value={profile.ethnicity} />
+            <InfoEntry label="Religion" value={profile.religion} />
+            <InfoEntry label="Nationality" value={profile.nationality} />
+            <InfoEntry label="Address" value={profile.address} />
+            <InfoEntry label="Workplace" value={profile.workplace} />
+          </>
+        ) : (
+          <p className="mx-auto">This section is currently unavailable</p>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="container mx-auto py-8">
+      <div className="grid grid-cols-4 gap-6 px-4 sm:grid-cols-12">
+        <div className="col-span-4 sm:col-span-5">
+          <ProfileInfo />
+        </div>
+        <div className="col-span-4 sm:col-span-7">
+          <AdditionalInfo />
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default index;
+export default Profile;
