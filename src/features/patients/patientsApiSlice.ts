@@ -40,7 +40,7 @@ export const patientsApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Patient", id: arg.id },
       ],
     }),

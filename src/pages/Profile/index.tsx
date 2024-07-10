@@ -5,9 +5,9 @@ import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useAuth from "hooks/useAuth";
 import useFormattedDate from "hooks/useFormattedDate";
 import useTitle from "hooks/useTitle";
+import { useState } from "react";
 import { Patient } from "types/Patient";
 
-// Define the type guard
 function isPatient(profile: any): profile is Patient {
   return (profile as Patient).bday !== undefined;
 }
@@ -56,17 +56,20 @@ const Profile = () => {
   const ProfileInfo = () => (
     <div className="card rounded-md bg-base-100 text-neutral-content shadow-sm">
       <div className="card-body">
-        <div className="flex flex-col items-center">
-          <img
-            src={profile.avatar}
-            className="mb-4 h-32 w-32 shrink-0 rounded-full bg-gray-300"
-            alt="Avatar"
-          />
-          <h1 className="text-xl font-bold">{profile.name}</h1>
-          <div className="my-3 flex w-full flex-col">
+        <div className="flex flex-col items-center space-y-2">
+          <div className="relative">
+            <img
+              src={profile.avatar}
+              className="h-[150px] w-[150px] rounded-full border-2 border-gray-400"
+              alt="Avatar"
+            />
+
             <UpdateProfile userId={profile.id} />
-            <button className="btn btn-primary w-full">Update Profile</button>
-            <button className="btn btn-ghost w-full text-primary">
+          </div>
+          <h1 className="text-xl font-bold">{profile.name}</h1>
+          <div className="flex w-full flex-col gap-3 lg:flex-row">
+            <button className="btn btn-primary flex-1 ">Update Profile</button>
+            <button className="btn btn-ghost flex-1 text-primary">
               View pink card
             </button>
           </div>
