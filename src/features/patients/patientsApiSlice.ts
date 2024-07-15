@@ -34,21 +34,10 @@ export const patientsApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-    updateProfile: builder.mutation({
-      query: (data) => ({
-        url: "/patients/update-profile",
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: (_result, _error, arg) => [
-        { type: "Patient", id: arg.id },
-      ],
-    }),
   }),
 });
 
-export const { useGetPatientsQuery, useUpdateProfileMutation } =
-  patientsApiSlice;
+export const { useGetPatientsQuery } = patientsApiSlice;
 
 // returns the query result object
 export const selectPatientsResult =

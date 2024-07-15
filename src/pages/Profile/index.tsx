@@ -1,16 +1,13 @@
+import Alert from "components/Feedback/Alert";
+import Loader from "components/Loader";
 import InfoEntry from "components/Profile/InfoEntry";
 import { useGetPatientsQuery } from "features/patients/patientsApiSlice";
-import UpdateProfile from "features/patients/UpdateProfile";
+import UpdateProfile from "features/profile/UpdateProfile";
 import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useAuth from "hooks/useAuth";
 import useFormattedDate from "hooks/useFormattedDate";
 import useTitle from "hooks/useTitle";
-import { useState } from "react";
-import { Patient } from "types/Patient";
-
-function isPatient(profile: any): profile is Patient {
-  return (profile as Patient).bday !== undefined;
-}
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   useTitle("Profile");
@@ -21,6 +18,7 @@ const Profile = () => {
     isLoading: isUsersLoading,
     isError: isUsersError,
   } = useGetUsersQuery("usersList");
+
   const {
     data: patientsData,
     isLoading: isPatientsLoading,
@@ -32,6 +30,7 @@ const Profile = () => {
         (entity) => entity?.email === email,
       )
     : undefined;
+
   const patient = patientsData
     ? Object.values(patientsData.entities).find(
         (entity) => entity?.email === email,
@@ -39,27 +38,30 @@ const Profile = () => {
     : undefined;
 
   const profile = patient || user;
+
   const createdAt = useFormattedDate(profile?.createdAt || "");
 
   if (isUsersLoading || isPatientsLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (isUsersError || isPatientsError) {
-    return <div>Error loading data.</div>;
+    return <Alert type="error" message="Error loading data." />;
   }
 
   if (!profile) {
-    return <div>No profile found.</div>;
+    return <Alert type="error" message="No profile found" />;
   }
 
   const ProfileInfo = () => (
-    <div className="card rounded-md bg-base-100 text-neutral-content shadow-sm">
+    <div className="card rounded-md bg-base-100  shadow-sm">
       <div className="card-body">
         <div className="flex flex-col items-center space-y-2">
           <div className="relative">
             <img
-              src={profile.avatar}
+              src={
+                profile.avatar ? profile.avatar : "https://bit.ly/dan-abramov"
+              }
               className="h-[150px] w-[150px] rounded-full border-2 border-gray-400"
               alt="Avatar"
             />
@@ -67,14 +69,19 @@ const Profile = () => {
             <UpdateProfile userId={profile.id} />
           </div>
           <h1 className="text-xl font-bold">{profile.name}</h1>
-          <div className="flex w-full flex-col gap-3 lg:flex-row">
-            <button className="btn btn-primary flex-1 ">Update Profile</button>
-            <button className="btn btn-ghost flex-1 text-primary">
+          <div className="flex w-full flex-col justify-center gap-3 lg:flex-row">
+            <Link
+              to={`/dashboard/profile/${profile.id}`}
+              className="btn btn-primary  btn-sm"
+            >
+              Update Profile
+            </Link>
+            <button className="btn btn-ghost btn-sm text-primary">
               View pink card
             </button>
           </div>
         </div>
-        <hr className="border-t border-gray-300" />
+        <hr className="border-t border-gray-100" />
         <div className="flex flex-col space-y-3">
           <InfoEntry label="Email" value={profile.email} />
           {status !== "Patient" && <InfoEntry label="Role" value={status} />}
@@ -87,21 +94,25 @@ const Profile = () => {
   const AdditionalInfo = () => (
     <div className="card rounded-md bg-base-100 shadow-sm">
       <div className="card-body">
-        {isPatient(profile) ? (
+        {profile.roles.includes("Patient") ? (
           <>
             <InfoEntry
               label="Birthday"
-              value={new Date(profile.bday).toString()}
+              value={new Date(profile.bday!).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             />
-            <InfoEntry label="Gender" value={profile.gender} />
-            <InfoEntry label="Civil Status" value={profile.civilStatus} />
-            <InfoEntry label="Fathers Name" value={profile.fathersName} />
-            <InfoEntry label="Mothers Name" value={profile.mothersName} />
-            <InfoEntry label="Ethnicity" value={profile.ethnicity} />
-            <InfoEntry label="Religion" value={profile.religion} />
-            <InfoEntry label="Nationality" value={profile.nationality} />
-            <InfoEntry label="Address" value={profile.address} />
-            <InfoEntry label="Workplace" value={profile.workplace} />
+            <InfoEntry label="Gender" value={profile?.gender} />
+            <InfoEntry label="Civil Status" value={profile?.civilStatus} />
+            <InfoEntry label="Fathers Name" value={profile?.fathersName} />
+            <InfoEntry label="Mothers Name" value={profile?.mothersName} />
+            <InfoEntry label="Ethnicity" value={profile?.ethnicity} />
+            <InfoEntry label="Religion" value={profile?.religion} />
+            <InfoEntry label="Nationality" value={profile?.nationality} />
+            <InfoEntry label="Address" value={profile?.address} />
+            <InfoEntry label="Workplace" value={profile?.workplace} />
           </>
         ) : (
           <p className="mx-auto">This section is currently unavailable</p>

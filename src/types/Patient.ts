@@ -1,8 +1,13 @@
 export type Patient = {
   id: string;
-  email: string;
-  roles: string[];
   name: string;
+  email: string;
+  password: string;
+  roles: string[];
+  active: boolean;
+  avatar: string;
+  cloudinary_url: string;
+  createdAt: string;
   bday: number;
   gender: string;
   civilStatus: string;
@@ -13,7 +18,4 @@ export type Patient = {
   nationality: string;
   address: string;
   workplace: string;
-  avatar: string;
-  cloudinary_url: string;
-  createdAt: string;
 };
