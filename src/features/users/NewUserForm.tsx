@@ -56,7 +56,7 @@ const NewUserForm = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="card w-full max-w-lg bg-base-100 shadow-sm"
+      className="card mx-auto w-full max-w-lg bg-base-100 shadow-sm"
     >
       <div className="card-body">
         <h2 className="card-title">New User</h2>

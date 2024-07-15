@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRefreshMutation } from "./authApiSlice";
 import { appEnv } from "utils/config";
 import { Link, Outlet } from "react-router-dom";
-
 import { ErrorType } from "types/Error";
+import Loader from "components/Loader";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -46,7 +46,7 @@ const PersistLogin = () => {
   } else if (isLoading) {
     //persist: yes, token: no
     console.log("loading");
-    content = <p>Loading...</p>;
+    content = <Loader />;
   } else if (isError) {
     //persist: yes, token: no
     console.log("error");

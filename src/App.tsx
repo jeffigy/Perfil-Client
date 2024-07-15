@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { lazy, useEffect } from "react";
 import { themeChange } from "theme-change";
 import Prefetch from "features/auth/Prefetch";
-import PersistLogin from "features/auth/PersisLogin";
+import PersistLogin from "features/auth/PersistLogin";
 import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
 import CheckEmail from "pages/Auth/CheckEmail";

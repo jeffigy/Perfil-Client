@@ -1,3 +1,4 @@
+import Loader from "components/Loader";
 import EditUserForm from "features/users/EditUserForm";
 import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useTitle from "hooks/useTitle";
@@ -13,11 +14,7 @@ const EditUserPage = () => {
     }),
   });
 
-  return (
-    <div className="flex justify-center">
-      {user ? <EditUserForm user={user} /> : <p>loading....</p>}
-    </div>
-  );
+  return <>{user ? <EditUserForm user={user} /> : <Loader />}</>;
 };
 
 export default EditUserPage;

@@ -4,11 +4,7 @@ import useTitle from "hooks/useTitle";
 const NewUserPage = () => {
   useTitle("New User");
 
-  return (
-    <div>
-      <NewUserForm />
-    </div>
-  );
+  return <NewUserForm />;
 };
 
 export default NewUserPage;

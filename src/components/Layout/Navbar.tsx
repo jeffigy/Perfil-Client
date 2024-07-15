@@ -2,6 +2,8 @@ import { SunIcon, MoonIcon, BellIcon } from "@heroicons/react/16/solid";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useAppSelector } from "app/hooks";
 import { useLogoutMutation } from "features/auth/authApiSlice";
+import { useGetPatientsQuery } from "features/patients/patientsApiSlice";
+import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useAuth from "hooks/useAuth";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +18,23 @@ const Navbar = () => {
 
   const [logout, { isLoading, isSuccess, isError, error }] =
     useLogoutMutation();
+  const { data: usersData } = useGetUsersQuery("usersList");
+
+  const { data: patientsData } = useGetPatientsQuery("patientsList");
+
+  const user = usersData
+    ? Object.values(usersData.entities).find(
+        (entity) => entity?.email === email,
+      )
+    : undefined;
+
+  const patient = patientsData
+    ? Object.values(patientsData.entities).find(
+        (entity) => entity?.email === email,
+      )
+    : undefined;
+
+  const profile = patient || user;
 
   const isPatient = useMemo(() => roles.includes("Patient"), [roles]);
 
@@ -111,19 +130,26 @@ const Navbar = () => {
             <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
               <div className="w-10 rounded-full">
                 <img
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src={profile?.avatar || "https://bit.ly/dan-abramov"}
                   alt="profile"
                 />
               </div>
             </label>
             <ul
               tabIndex={0}
-              className="menu-compact menu dropdown-content mt-3 w-52 divide-y rounded-box bg-base-100 p-2 shadow"
+              className="menu-compact menu dropdown-content mt-3 w-52 divide-y rounded-md bg-base-100 p-2 shadow"
             >
               <div className="flex flex-col items-center space-y-1 py-5">
                 <div className="avatar">
                   <div className="w-24 rounded-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                    <img
+                      src={
+                        profile?.avatar
+                          ? profile?.avatar
+                          : "https://bit.ly/dan-abramov"
+                      }
+                      alt="profile"
+                    />
                   </div>
                 </div>
                 <p className="font-medium">{email}</p>
