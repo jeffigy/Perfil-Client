@@ -6,6 +6,7 @@ import PersistLogin from "features/auth/PersisLogin";
 import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
 import CheckEmail from "pages/Auth/CheckEmail";
+import Edit from "pages/Profile/Edit";
 
 const ForgotPassword = lazy(() => import("pages/Auth/ForgotPassword"));
 const HomePage = lazy(() => import("pages/Dashboard"));
@@ -44,7 +45,12 @@ function App() {
             <Route element={<Prefetch />}>
               <Route path="dashboard" element={<Layout />}>
                 <Route index element={<HomePage />} />
-                <Route path="profile" element={<Profile />} />
+
+                <Route path="profile">
+                  <Route index element={<Profile />} />
+                  <Route path=":id" element={<Edit />} />
+                </Route>
+
                 <Route
                   element={
                     <RequireAuth
