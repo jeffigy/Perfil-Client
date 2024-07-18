@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ErrorType } from "types/Error";
 import Modal from "components/Modal";
 import { useUpdateProfileMutation } from "features/profile/profileApiSlice";
+import Alert from "components/Feedback/Alert";
 
 type UpdateProfileProps = {
   userId: string;
@@ -12,8 +13,9 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({ userId }) => {
     useUpdateProfileMutation();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | undefined>();
-
+  const [showAlert, setShowAlert] = useState(false);
   const [modal, setModal] = useState(false);
+
   const openModal = () => setModal(true);
   const closeModal = () => {
     setFile(null);
@@ -40,7 +42,6 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({ userId }) => {
 
     try {
       await updateProfile(data).unwrap();
-      console.log("Profile updated successfully");
     } catch (err) {
       console.error("Failed to update profile:", err);
     }
@@ -56,6 +57,17 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({ userId }) => {
     setPreview(objectUrl);
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
+
+  useEffect(() => {
+    if (isError || isSuccess) {
+      setShowAlert(true);
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isError, isSuccess]);
 
   return (
     <>
@@ -87,12 +99,11 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({ userId }) => {
         </button>
         <h3 className="mb-3 text-lg font-bold">Update Photo</h3>
         <form className="space-y-3" onSubmit={handleSubmit}>
-          {isSuccess && <p>Profile updated successfully!</p>}
-          {isError && (
-            <p>
-              Error updating profile:{" "}
-              {(error as ErrorType)?.data?.message || "Unknown error"}
-            </p>
+          {showAlert && isError && (
+            <Alert type="error" message={(error as ErrorType)?.data?.message} />
+          )}
+          {showAlert && isSuccess && (
+            <Alert type="success" message="Profile updated successfully!" />
           )}
           <input
             id="select-image"

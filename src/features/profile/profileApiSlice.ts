@@ -24,8 +24,21 @@ const profileApiSlice = apiSlice.injectEndpoints({
         { type: "User", id: arg.id },
       ],
     }),
+    joinWorkplace: builder.mutation({
+      query: (data) => ({
+        url: "/profile/join-workplace",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Patient", id: arg.id },
+      ],
+    }),
   }),
 });
 
-export const { useUpdateProfileMutation, useUpdateDetailsMutation } =
-  profileApiSlice;
+export const {
+  useUpdateProfileMutation,
+  useUpdateDetailsMutation,
+  useJoinWorkplaceMutation,
+} = profileApiSlice;

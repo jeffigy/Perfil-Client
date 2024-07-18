@@ -16,9 +16,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       dialogRef.current?.close?.();
     }
   }, [isOpen]);
+
   return (
     <dialog ref={dialogRef} className="modal" onClose={onClose}>
-      <div className="modal-box">{children}</div>
+      <div className="modal-box max-w-md rounded-md">{children}</div>
     </dialog>
   );
 };

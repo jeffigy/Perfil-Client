@@ -19,8 +19,8 @@ const UpdateDetails: React.FC<UpdateDetailsProps> = ({ details }) => {
     useUpdateDetailsMutation();
   const [bday, setBday] = useState<Date>(new Date(details.bday));
   const [name, setName] = useState(details.name);
-  const [gender, setGender] = useState(details.gender);
-  const [civilStatus, setCivilStatus] = useState(details.civilStatus);
+  const [gender, setGender] = useState(details.gender || "");
+  const [civilStatus, setCivilStatus] = useState(details.civilStatus || "");
   const [fathersName, setFathersName] = useState(details.fathersName);
   const [mothersName, setMothersName] = useState(details.mothersName);
   const [ethnicity, setEthnicity] = useState(details.ethnicity);
@@ -225,10 +225,7 @@ const UpdateDetails: React.FC<UpdateDetailsProps> = ({ details }) => {
           <Alert type="error" message={(error as ErrorType)?.data?.message} />
         )}
         {showAlert && isSuccess && (
-          <Alert
-            type="success"
-            message="A verification email has been sent to your email"
-          />
+          <Alert type="success" message="Profile successfully updated" />
         )}
         <div className="card-actions flex flex-col gap-2 sm:flex-row">
           <button

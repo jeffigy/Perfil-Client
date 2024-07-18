@@ -2,6 +2,7 @@ import Alert from "components/Feedback/Alert";
 import Loader from "components/Loader";
 import InfoEntry from "components/Profile/InfoEntry";
 import { useGetPatientsQuery } from "features/patients/patientsApiSlice";
+import JoinWorkplace from "features/profile/JoinWorkplace";
 import UpdateProfile from "features/profile/UpdateProfile";
 import { useGetUsersQuery } from "features/users/usersApiSlice";
 import useAuth from "hooks/useAuth";
@@ -41,6 +42,17 @@ const Profile = () => {
 
   const createdAt = useFormattedDate(profile?.createdAt || "");
 
+  const patientProfileUpdated =
+    patient?.bday &&
+    patient.gender &&
+    patient.civilStatus &&
+    patient.fathersName &&
+    patient.mothersName &&
+    patient.ethnicity &&
+    patient.religion &&
+    patient.nationality &&
+    patient.address;
+
   if (isUsersLoading || isPatientsLoading) {
     return <Loader />;
   }
@@ -70,15 +82,25 @@ const Profile = () => {
           </div>
           <h1 className="text-xl font-bold">{profile.name}</h1>
           <div className="flex w-full flex-col justify-center gap-3 lg:flex-row">
-            <Link
-              to={`/dashboard/profile/${profile.id}`}
-              className="btn btn-primary  btn-sm"
-            >
-              Update Profile
-            </Link>
-            <button className="btn btn-ghost btn-sm text-primary">
-              View pink card
-            </button>
+            {status === "Patient" && (
+              <>
+                <Link
+                  to={`/dashboard/profile/${profile.id}`}
+                  className="btn btn-primary  btn-sm"
+                >
+                  Update Profile
+                </Link>
+                {patientProfileUpdated && !patient.workplace && (
+                  <JoinWorkplace userId={profile.id} />
+                )}
+
+                {patient?.workplace && (
+                  <button className="btn btn-ghost btn-sm text-primary">
+                    View pink card
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
         <hr className="border-t border-gray-100" />
@@ -94,7 +116,7 @@ const Profile = () => {
   const AdditionalInfo = () => (
     <div className="card rounded-md bg-base-100 shadow-sm">
       <div className="card-body">
-        {profile.roles.includes("Patient") ? (
+        {status === "Patient" ? (
           <>
             <InfoEntry
               label="Birthday"
