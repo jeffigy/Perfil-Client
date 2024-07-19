@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { Suspense } from "react";
 import SuspenseContent from "components/SuspenseContent";
+import SpeedDial from "components/SpeedDial";
+import actions from "routes/actions";
 
 const PageContent = () => {
   return (
@@ -12,6 +14,7 @@ const PageContent = () => {
           <Outlet />
         </Suspense>
       </main>
+      <SpeedDial actions={actions} />
     </div>
   );
 };
