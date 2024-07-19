@@ -1,12 +1,13 @@
-// SpeedDial.tsx
 import { PlusIcon } from "@heroicons/react/20/solid";
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface SpeedDialProps {
-  actions: { icon: React.ReactNode; name: string; onClick: () => void }[];
+  actions: { icon: React.ReactNode; name: string; to: string }[];
 }
 
 const SpeedDial: React.FC<SpeedDialProps> = ({ actions }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -17,6 +18,11 @@ const SpeedDial: React.FC<SpeedDialProps> = ({ actions }) => {
     ) {
       setOpen(false);
     }
+  };
+
+  const handleChangeRoute = (to: string) => {
+    navigate(to);
+    setOpen(!open);
   };
 
   useEffect(() => {
@@ -52,7 +58,7 @@ const SpeedDial: React.FC<SpeedDialProps> = ({ actions }) => {
             {" "}
             <p>{action.name}</p>
             <button
-              onClick={action.onClick}
+              onClick={() => handleChangeRoute(action.to)}
               className=" btn btn-circle btn-secondary"
               aria-label={action.name}
             >

@@ -1,4 +1,4 @@
-import BuildingOfficeIcon from "@heroicons/react/24/outline/BuildingOfficeIcon";
+import { HomeIcon } from "@heroicons/react/24/outline";
 import ChartPieIcon from "@heroicons/react/24/outline/ChartPieIcon";
 import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
@@ -23,12 +23,12 @@ type Routes = RouteItem[];
 const routes: Routes = [
   {
     path: "/dashboard",
-    icon: <Squares2X2Icon className={iconClasses} />,
+    icon: <HomeIcon className={iconClasses} />,
     name: "Home",
   },
   {
     path: "/dashboard/workplaces",
-    icon: <BuildingOfficeIcon className={iconClasses} />,
+    icon: <Squares2X2Icon className={iconClasses} />,
     name: "Workplaces",
   },
   {

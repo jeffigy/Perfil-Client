@@ -11,3 +11,7 @@
 .input {
   @apply rounded-md;
 }
+
+.card {
+  @apply rounded-md;
+}
