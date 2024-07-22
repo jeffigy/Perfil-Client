@@ -15,3 +15,7 @@
 .card {
   @apply rounded-md;
 }
+
+.dropdown-content {
+  @apply rounded-md;
+}
