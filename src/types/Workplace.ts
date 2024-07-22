@@ -3,4 +3,5 @@ export type Workplace = {
   name: string;
   owner: string;
   address: string;
+  workplaceCode: string;
 };
