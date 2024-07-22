@@ -4,7 +4,12 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   plugins: [daisyui],
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        transform: "transform",
+        opacity: "opacity",
+      },
+    },
   },
   darkMode: ["class", '[data-theme="night"]'],
   daisyui: {

@@ -66,7 +66,7 @@ const Profile = () => {
   }
 
   const ProfileInfo = () => (
-    <div className="card rounded-md bg-base-100  shadow-sm">
+    <div className="card bg-base-100 shadow-sm">
       <div className="card-body">
         <div className="flex flex-col items-center space-y-2">
           <div className="relative">
@@ -114,7 +114,7 @@ const Profile = () => {
   );
 
   const AdditionalInfo = () => (
-    <div className="card rounded-md bg-base-100 shadow-sm">
+    <div className="card bg-base-100 shadow-sm">
       <div className="card-body">
         {status === "Patient" ? (
           <>

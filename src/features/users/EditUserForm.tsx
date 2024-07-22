@@ -68,10 +68,10 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
   return (
     <form
       onSubmit={onSubmit}
-      className="card w-full max-w-lg bg-base-100 shadow-sm"
+      className="card mx-auto w-full max-w-lg bg-base-100 shadow-sm"
     >
       <div className="card-body">
-        <h2 className="card-title">New User</h2>
+        <h2 className="card-title">Eit User</h2>
         {isError && (
           <div role="alert" className="alert alert-error">
             <svg

@@ -137,7 +137,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu-compact menu dropdown-content mt-3 w-52 divide-y rounded-md bg-base-100 p-2 shadow"
+              className="menu-compact menu dropdown-content mt-3 w-52 divide-y bg-base-100 p-2 shadow"
             >
               <div className="flex flex-col items-center space-y-1 py-5">
                 <div className="avatar">
