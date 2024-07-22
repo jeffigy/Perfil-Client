@@ -7,6 +7,7 @@ import RequireAuth from "features/auth/RequireAuth";
 import { Roles } from "utils/roles";
 import CheckEmail from "pages/Auth/CheckEmail";
 import Edit from "pages/Profile/Edit";
+import NewWorkplace from "pages/Workplaces/New";
 
 const ForgotPassword = lazy(() => import("pages/Auth/ForgotPassword"));
 const HomePage = lazy(() => import("pages/Dashboard"));
@@ -64,6 +65,7 @@ function App() {
                 >
                   <Route path="workplaces">
                     <Route index element={<WorkplacesPage />} />
+                    <Route path="new" element={<NewWorkplace />} />
                     <Route path=":id">
                       <Route index element={<WorkplaceDetails />} />
                       <Route path="edit" element={<EditWorkplace />} />
