@@ -143,7 +143,10 @@ const NewUserForm = () => {
         <div className="card-actions justify-end space-x-1">
           <button
             className="btn btn-ghost btn-neutral "
-            onClick={() => navigate(-1)}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
           >
             Cancel
           </button>

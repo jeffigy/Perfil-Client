@@ -7,7 +7,7 @@ import { Genders } from "utils/gender";
 import { useUpdateDetailsMutation } from "./profileApiSlice";
 import Alert from "components/Feedback/Alert";
 import { ErrorType } from "types/Error";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type UpdateDetailsProps = {
   details: User | Patient;
@@ -240,9 +240,15 @@ const UpdateDetails: React.FC<UpdateDetailsProps> = ({ details }) => {
               "Submit"
             )}
           </button>
-          <Link className="btn btn-ghost w-full" to={"/dashboard/profile"}>
+          <button
+            className="btn btn-ghost w-full"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
+          >
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </form>
