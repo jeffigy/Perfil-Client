@@ -184,7 +184,10 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user }) => {
         </div>
         <div className="card-actions justify-between space-x-1">
           <button
-            onClick={() => navigate(-1)}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
             className="btn btn-ghost btn-neutral "
           >
             Cancel
