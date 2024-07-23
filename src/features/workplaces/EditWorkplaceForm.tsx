@@ -33,8 +33,6 @@ const EditWorkplaceForm: React.FC<EditWorkplaceFormProps> = ({ workplace }) => {
       toast.success("Workplace succesfully updated");
       navigate(-1);
     } catch (error) {
-      console.log(error);
-
       toast.error((error as ErrorType).data.message);
     }
   };
@@ -88,7 +86,10 @@ const EditWorkplaceForm: React.FC<EditWorkplaceFormProps> = ({ workplace }) => {
         <div className="card-actions flex-col-reverse justify-end gap-1 sm:flex-row">
           <button
             className="btn btn-ghost w-full sm:w-auto"
-            onClick={() => navigate(-1)}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
           >
             Cancel
           </button>
@@ -104,4 +105,5 @@ const EditWorkplaceForm: React.FC<EditWorkplaceFormProps> = ({ workplace }) => {
     </form>
   );
 };
+
 export default EditWorkplaceForm;

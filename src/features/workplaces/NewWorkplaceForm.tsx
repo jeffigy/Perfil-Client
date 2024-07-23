@@ -76,7 +76,10 @@ const NewWorkplaceForm = () => {
         <div className="card-actions flex-col-reverse justify-end gap-1 sm:flex-row">
           <button
             className="btn btn-ghost w-full sm:w-auto"
-            onClick={() => navigate(-1)}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1);
+            }}
           >
             Cancel
           </button>
