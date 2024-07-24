@@ -1,16 +1,31 @@
-import { useAppSelector } from "app/hooks";
 import Loader from "components/Loader";
-import DetailsCard from "features/workplaces/DetailsCard";
-import { selectWorkplaceById } from "features/workplaces/workplacesApiSlice";
+import DetailsCard from "features/workplaces/details/DetailsCard";
+import DetailTabs from "features/workplaces/details/DetailTabs";
+import { useGetWorkplacesQuery } from "features/workplaces/workplacesApiSlice";
 import useTitle from "hooks/useTitle";
 import { useParams } from "react-router-dom";
 
 const WorkplaceDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const workplace = useAppSelector((state) => selectWorkplaceById(state, id!));
-  useTitle(workplace ? workplace.name : "...");
 
-  return <>{workplace ? <DetailsCard workplace={workplace} /> : <Loader />}</>;
+  const { workplace } = useGetWorkplacesQuery("worplacesList", {
+    selectFromResult: ({ data }) => ({
+      workplace: data?.entities[id!],
+    }),
+  });
+
+  useTitle(workplace ? workplace.name : "Loading...");
+
+  if (!workplace) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="mx-auto flex w-full max-w-6xl flex-col space-y-5">
+      <DetailsCard workplace={workplace} />
+      <DetailTabs />
+    </div>
+  );
 };
 
 export default WorkplaceDetails;
