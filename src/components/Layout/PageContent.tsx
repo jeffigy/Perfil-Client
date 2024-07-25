@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import { Suspense } from "react";
 import SuspenseContent from "components/SuspenseContent";
@@ -6,6 +6,14 @@ import SpeedDial from "components/SpeedDial";
 import actions from "routes/actions";
 
 const PageContent = () => {
+  const location = useLocation();
+
+  const hideSpeedDial = !location.pathname.startsWith(
+    "/dashboard/workplaces/",
+  ) ? (
+    <SpeedDial actions={actions} />
+  ) : null;
+
   return (
     <div className="drawer-content flex min-h-screen flex-col">
       <Navbar />
@@ -14,7 +22,7 @@ const PageContent = () => {
           <Outlet />
         </Suspense>
       </main>
-      <SpeedDial actions={actions} />
+      {hideSpeedDial}
     </div>
   );
 };
