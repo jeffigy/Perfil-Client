@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useJoinWorkplaceMutation } from "./profileApiSlice";
 import { ErrorType } from "types/Error";
 import { toast } from "react-toastify";
+import useDisclosure from "hooks/useDisclosure";
 
 type JoinWorkplaceProps = {
   userId: string;
@@ -11,11 +12,7 @@ type JoinWorkplaceProps = {
 const JoinWorkplace: React.FC<JoinWorkplaceProps> = ({ userId }) => {
   const [JoinWorkplace, { isLoading }] = useJoinWorkplaceMutation();
   const [workplaceCode, setWorkplaceCode] = useState("");
-
-  const [modal, setModal] = useState(false);
-
-  const openModal = () => setModal(true);
-  const closeModal = () => setModal(false);
+  const { isOpen, onOpen, onClose } = useDisclosure("join workplace");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,6 +23,7 @@ const JoinWorkplace: React.FC<JoinWorkplaceProps> = ({ userId }) => {
         workplaceCode,
       }).unwrap();
       toast.success("Successfully joined a workplace");
+      onClose();
     } catch (error) {
       toast.error((error as ErrorType).data.message, {
         autoClose: 10000,
@@ -35,19 +33,10 @@ const JoinWorkplace: React.FC<JoinWorkplaceProps> = ({ userId }) => {
 
   return (
     <>
-      <button onClick={openModal} className="btn btn-ghost btn-sm text-primary">
+      <button onClick={onOpen} className="btn btn-ghost btn-sm text-primary">
         Join Workplace
       </button>
-      <Modal isOpen={modal} onClose={closeModal}>
-        <button
-          type="button"
-          onClick={closeModal}
-          className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-        >
-          ✕
-        </button>
-        <h3 className="mb-3 text-lg font-bold">Join Workplace</h3>
-
+      <Modal isOpen={isOpen} onClose={onClose} title={"Join Workplace"}>
         <form onSubmit={onSubmit}>
           <label className="form-control w-full">
             <div className="label">
