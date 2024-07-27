@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-const DetailTabs = () => {
+const DetailsTabs = () => {
   const [activeTab, setActiveTab] = useState("appointments");
   return (
     <div className="space-y-1">
       <div className=" mx-auto max-w-md ">
         {" "}
-        <div role="tablist" className="tabs-boxed tabs bg-base-300">
+        <div role="tablist" className="tabs-boxed tabs bg-base-200">
           <a
             className={`tab-bordered tab ${activeTab === "announcements" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("announcements")}
@@ -37,4 +37,4 @@ const DetailTabs = () => {
   );
 };
 
-export default DetailTabs;
+export default DetailsTabs;

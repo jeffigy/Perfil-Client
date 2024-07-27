@@ -1,6 +1,6 @@
 import Loader from "components/Loader";
 import DetailsCard from "features/workplaces/details/DetailsCard";
-import DetailTabs from "features/workplaces/details/DetailTabs";
+import DetailsTabs from "features/workplaces/details/DetailsTabs";
 import { useGetWorkplacesQuery } from "features/workplaces/workplacesApiSlice";
 import useTitle from "hooks/useTitle";
 import { useParams } from "react-router-dom";
@@ -23,7 +23,7 @@ const WorkplaceDetails = () => {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col space-y-5">
       <DetailsCard workplace={workplace} />
-      <DetailTabs />
+      <DetailsTabs />
     </div>
   );
 };

@@ -17,7 +17,7 @@ const WorkplacesGrid = () => {
   });
 
   return (
-    <>
+    <div className="space-y-5">
       {" "}
       <TopBar />
       {isError && (
@@ -38,7 +38,7 @@ const WorkplacesGrid = () => {
           <span>{(error as ErrorType).data.message}</span>
         </div>
       )}
-      <div className="mx-auto p-4 sm:max-w-full md:max-w-3xl xl:max-w-7xl">
+      <div className="mx-auto sm:max-w-full md:max-w-3xl xl:max-w-7xl">
         <div className="xxl:grid-cols-4 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 ">
           {isSuccess &&
             workplaces.ids.map((workplaceId) => (
@@ -46,12 +46,12 @@ const WorkplacesGrid = () => {
             ))}
 
           {isLoading &&
-            [1, 2, 3, 4].map(() => (
-              <div className="skeleton h-[208px] w-[253px]" />
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((count) => (
+              <div key={count} className="skeleton h-[81px] w-full" />
             ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
