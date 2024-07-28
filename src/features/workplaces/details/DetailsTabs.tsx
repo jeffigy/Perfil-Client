@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AnnouncmentTab from "./Announcements/AnnouncementTab";
 
 const DetailsTabs = () => {
   const [activeTab, setActiveTab] = useState("appointments");
@@ -29,7 +30,7 @@ const DetailsTabs = () => {
       </div>
 
       <div className="w-full rounded-md bg-base-100 p-5">
-        {activeTab === "announcements" && <div>Announcements Content</div>}
+        {activeTab === "announcements" && <AnnouncmentTab />}
         {activeTab === "appointments" && <div>Appointments Content</div>}
         {activeTab === "patients" && <div>Patients Content</div>}
       </div>
