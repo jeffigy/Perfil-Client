@@ -29,7 +29,7 @@ const DetailsTabs = () => {
         </div>
       </div>
 
-      <div className="w-full rounded-md bg-base-100 p-5">
+      <div className="flex justify-center">
         {activeTab === "announcements" && <AnnouncmentTab />}
         {activeTab === "appointments" && <div>Appointments Content</div>}
         {activeTab === "patients" && <div>Patients Content</div>}

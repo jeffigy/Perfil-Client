@@ -33,6 +33,27 @@ export const announcementApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    getAnnouncmentsByWorkplaceId: builder.query({
+      query: (id) => ({
+        url: `/announcements/${id}`,
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
+        },
+      }),
+      transformResponse: (responseData: Announcement[]) => {
+        return announcementsAdapter.setAll(initialState, responseData);
+      },
+      providesTags: (result) => {
+        if (result?.ids) {
+          return [
+            { type: "Announcement", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Announcement" as const, id })),
+          ];
+        } else {
+          return [{ type: "Announcement", id: "LIST" }];
+        }
+      },
+    }),
     addNewAnnouncement: builder.mutation({
       query: (initialAnnouncementData) => ({
         url: "/announcements",
@@ -46,8 +67,11 @@ export const announcementApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetAnnouncementsQuery, useAddNewAnnouncementMutation } =
-  announcementApiSlice;
+export const {
+  useGetAnnouncementsQuery,
+  useGetAnnouncmentsByWorkplaceIdQuery,
+  useAddNewAnnouncementMutation,
+} = announcementApiSlice;
 
 export const selectAnnouncementsResult =
   announcementApiSlice.endpoints.getAnnouncements.select();
