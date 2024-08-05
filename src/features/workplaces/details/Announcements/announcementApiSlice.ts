@@ -64,6 +64,14 @@ export const announcementApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Announcement", id: "LIST" }],
     }),
+    deleteAnnouncement: builder.mutation({
+      query: ({ id }) => ({
+        url: "/announcements",
+        method: "DELETE",
+        body: { id },
+      }),
+      invalidatesTags: (arg) => [{ type: "Announcement", id: arg.id }],
+    }),
   }),
 });
 
@@ -71,6 +79,7 @@ export const {
   useGetAnnouncementsQuery,
   useGetAnnouncmentsByWorkplaceIdQuery,
   useAddNewAnnouncementMutation,
+  useDeleteAnnouncementMutation,
 } = announcementApiSlice;
 
 export const selectAnnouncementsResult =
