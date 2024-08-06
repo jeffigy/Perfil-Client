@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AnnouncmentTab from "./Announcements/AnnouncementTab";
+import AppointmentsTab from "./Appointments/AppointmentsTab";
 
 const DetailsTabs = () => {
   const [activeTab, setActiveTab] = useState("appointments");
@@ -31,7 +32,7 @@ const DetailsTabs = () => {
 
       <div className="flex justify-center">
         {activeTab === "announcements" && <AnnouncmentTab />}
-        {activeTab === "appointments" && <div>Appointments Content</div>}
+        {activeTab === "appointments" && <AppointmentsTab />}
         {activeTab === "patients" && <div>Patients Content</div>}
       </div>
     </div>

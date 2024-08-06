@@ -1,4 +1,7 @@
 export type Announcement = {
-  title: String;
-  workplace: String;
+  title: string;
+  workplace: string;
+  createdAt: string;
+  id: string;
+  updatedAt: string;
 };
