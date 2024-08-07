@@ -19,3 +19,9 @@
 .dropdown-content {
   @apply rounded-md;
 }
+
+.required::after {
+  content: "*";
+  color: red;
+  margin-left: 0.25rem;
+}

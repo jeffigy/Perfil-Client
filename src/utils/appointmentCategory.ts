@@ -1,1 +1,1 @@
-export const appointmentCategory = ["All", "Individual positive Patient"];
+export const appointmentCategory = ["All", "Individual positive patient"];

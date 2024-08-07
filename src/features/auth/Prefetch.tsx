@@ -2,6 +2,7 @@ import { store } from "app/store";
 import { patientsApiSlice } from "features/patients/patientsApiSlice";
 import { usersApiSlice } from "features/users/usersApiSlice";
 import { announcementApiSlice } from "features/workplaces/details/Announcements/announcementApiSlice";
+import { appointmentApiSlice } from "features/workplaces/details/Appointments/appointmentApiSlice";
 import { workplacesApiSlice } from "features/workplaces/workplacesApiSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -31,6 +32,11 @@ const Prefetch = () => {
           force: true,
         },
       ),
+    );
+    store.dispatch(
+      appointmentApiSlice.util.prefetch("getAppointments", "appointmentsList", {
+        force: true,
+      }),
     );
   }, []);
 
